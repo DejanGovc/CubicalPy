@@ -36,33 +36,6 @@ def badedges(cplx):
 
 ### PERMUTATIONS:
 
-"""def padding(t,l):
-    return tuple(-1 for i in range(l-len(t)))+t
-
-def sorting_perm(lst):
-    l = max([len(t) for t in lst])
-    extlist = [padding(t,l) for t in lst]
-    extlist = [extlist[i]+(i,) for i in range(len(lst))]
-    perm = [extlist.index(v) for v in sorted(extlist)]
-    return perm
-
-def repeats(lst):
-    perm = sorting_perm(lst)
-    lst = [lst[p] for p in perm]
-    ordlist = sorted(set([lst.index(v) for v in lst]))
-    ordlist = ordlist+[len(lst)]
-    return [ordlist[i+1]-ordlist[i] for i in range(len(ordlist)-1)]
-
-@lru_cache(maxsize=None)
-def perms(rptlist):
-    permlist = [list(permutations(range(p))) for p in rptlist]
-    for i in range(len(rptlist)-1):
-        m = max(permlist[-2][0])
-        permlist[-1] = [[j+m+1 for j in s] for s in permlist[-1]]
-        permlist[-2] = [list(p)+list(s) for p in permlist[-2] for s in permlist[-1]]
-        permlist = permlist[:-1]
-    return permlist[0]"""
-
 def sorting_perm(lst):
     sorted_pairs = sorted(enumerate(lst), key=lambda x: x[1])
     permutation = tuple(index for index, _ in sorted_pairs)
