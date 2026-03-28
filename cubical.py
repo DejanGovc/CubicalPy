@@ -6,6 +6,7 @@ import functions as fn
 def main():
     print("Started computation.")
     n = 5 # DIMENSION OF CUBE, HAS TO BE SET MANUALLY.
+    max_squares = 0 # PRUNING PARAMETER IF COMPUTING CLOSED SURFACES ONLY UP TO A FIXED NUMBER OF SQUARES. (TURNED OFF BY DEFAULT = 0.)
     n2 = n*(n-1)*2**(n-3)
     tab = fn.cubes(n,2)
     cplxs = [fn.zeroone([tuple(tab[0])],tab)]
@@ -14,7 +15,7 @@ def main():
     bool2_fun = partial(fn.zeroonesaturatedq,tab=tab)
     print("Variables loaded.")
     for i in range(-1+1,n2):
-        cplxs = fn.cubicalextend(cplxs,tab,n)
+        cplxs = fn.cubicalextend(cplxs,tab,n,max_squares)
         #print(time.ctime()+": Done extending.")
         cplxs = fn.cubicalisoreduce(cplxs,tab,n)
         with Pool() as p:
@@ -30,7 +31,7 @@ def main():
         if cplxs == []:
             break
     print("Total number of goodcplxs: "+str(len(goodcplxs)))
-    writestring = "".join([str(c)+"\n" for c in goodcplxs])
+    writestring = "".join([str(fn.fromzeroone(c,tab))+"\n" for c in goodcplxs])
     g = open("cplxs"+str(n)+".txt","w")
     g.write(writestring)
     g.close()

@@ -124,21 +124,24 @@ def fromzeroone(zo,tab):
 
 ### EXTENSION AND REDUCTION:
 
-def extendonce(ncplx,tab,n):
+def extendonce(ncplx,tab,n,max_squares):
     ncplxsnew = []
     cplx = fromzeroone(ncplx,tab)
-    e = badedges(cplx)[0]
+    bad = badedges(cplx)
+    e = bad[0]
     for i in reversed(range(n)):
         f = e[:i]+(2,)+e[i+1:]
         if f == e:
             continue
         if f in cplx:
             continue
+        if max_squares and len(bad) > 4*(max_squares - len(cplx)):
+            continue
         ncplxsnew += [zeroone(cplx + [f],tab)]
     return ncplxsnew
 
-def cubicalextend(ncplxs,tab,n):
-    extendfun = partial(extendonce,tab=tab,n=n)
+def cubicalextend(ncplxs,tab,n,max_squares):
+    extendfun = partial(extendonce,tab=tab,n=n,max_squares=max_squares)
     with Pool() as p:
         ncplxsnew = p.map(extendfun,ncplxs)
     ncplxsnew = [c for ncplxs in ncplxsnew for c in ncplxs]
