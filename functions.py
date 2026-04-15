@@ -201,13 +201,17 @@ def cubicalcanlabel(ncplx,n):
 
 ### EXTENSION (FOR VARIOUS TYPES OF SURFACES):
 
-def extendonce(ncplx,n):
+def extendonce(ncplx,n,max_squares):
     ncplxsnew = []
     n2 = n*(n-1)*2**(n-3)
-    es = edgesquares(firstone(testedges(ncplx,n)[2]),n)
-    for i in range(n2):
-        if es & (1 << i) and not ncplx & (1 << i):
-            ncplxsnew.append(ncplx|(1<<i))
+    t = testedges(ncplx,n)[2]
+    ns = ncplx.bit_count()
+    nt = t.bit_count()
+    if max_squares == 0 or nt <= 4*(max_squares - ns):
+        es = edgesquares(firstone(t),n)
+        for i in range(n2):
+            if es & (1 << i) and not ncplx & (1 << i):
+                ncplxsnew.append(ncplx|(1<<i))
     return ncplxsnew
 
 def disconnected_withbdry_extendonce(ncplx,n):

@@ -11,7 +11,7 @@ def user_interface():
     print("By default, computing (connected) closed surfaces in the 5-cube.")
     response1 = input("Continue [C] or choose your own parameters [P]? ")
     if response1 == 'p':
-        response2 = input("Closed surfaces [C] or surfaces with boundary [B]? ").lower()
+        response2 = input("Closed surfaces [C], surfaces with boundary [B] or closed surfaces up to k squares [enter a positive integer]? ").lower()
         if response2 == 'b':
             surf_type = "surfaces with boundary"
             n = 4
@@ -20,6 +20,10 @@ def user_interface():
             surf_type = "closed surfaces"
             n = 5
             dbprefix = ""
+        elif response2.isdigit() and int(response2) > 0:
+            surf_type = f"closed surfaces up to {response2} squares"
+            n = 6
+            dbprefix = f"k{response2}"
         else:
             print("Invalid input. Exiting computation.")
             exit()
@@ -28,6 +32,9 @@ def user_interface():
             surf_type += " (including disconnected)"
             if dbprefix == "b":
                 dbprefix = "db"
+            if dbprefix[0] == "k":
+                print("Not implemented yet. Exiting computation.")
+                exit()
             else:
                 dbprefix = "dc"
         elif response3 == 'n':

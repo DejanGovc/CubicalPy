@@ -17,6 +17,10 @@ def main():
     ### SET PARAMETERS
     n, chunksize, dbprefix, surf_type = ui.user_interface()
     n2 = n*(n-1)*2**(n-3)
+    if dbprefix and dbprefix[0]=="k":
+        max_squares = int(dbprefix[1:])
+    else:
+        max_squares = 0
     imin = 2 # default: 2
     imax = n2 # default: n2
     cplxs = [1]
@@ -28,7 +32,7 @@ def main():
     elif dbprefix == "dc":
         extend_fun = partial(fn.disconnected_extendonce,n=n)
     else:
-        extend_fun = partial(fn.extendonce,n=n)
+        extend_fun = partial(fn.extendonce,n=n,max_squares=max_squares)
     label_fun = partial(fn.cubicalcanlabel,n=n)
     bool_fun = partial(fn.testedges,n=n)
 
